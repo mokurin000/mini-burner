@@ -1,0 +1,38 @@
+[package]
+name = "mini-burner"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+webp = { version = "0.3.1", default-features = false }
+ort = { workspace = true }
+ndarray = "0.17.2"
+
+cfg-if = "1.0.5"
+spdlog-rs = "0.5.3"
+
+[features]
+
+[workspace.dependencies]
+ort = "2.0.0-rc.15"
+
+[target.'cfg(all(target_arch = "x86_64", target_os = "windows"))'.dependencies]
+ort = { workspace = true, features = ["directml"] }
+[target.'cfg(all(not(target_arch = "x86_64"), target_os = "windows"))'.dependencies]
+ort = { workspace = true, features = ["directml"] }
+
+[target.'cfg(all(target_os = "linux", target_arch = "x86_64"))'.dependencies]
+ort = { workspace = true, features = ["webgpu"] }
+[target.'cfg(all(target_os = "linux", target_arch = "aarch64"))'.dependencies]
+ort = { workspace = true, features = ["cuda"] }
+
+[target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]
+ort = { workspace = true, features = ["webgpu"] }
+[target.'cfg(all(target_os = "ios", target_arch = "aarch64"))'.dependencies]
+ort = { workspace = true, features = ["coreml"] }
+
+[target.'cfg(all(target_os = "android", any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
+ort = { workspace = true, features = ["nnapi"] }
+
+[target.'cfg(all(target_family="wasm", target_os="unknown"))'.dependencies]
+ort = { workspace = true, features = ["webgpu"] }
