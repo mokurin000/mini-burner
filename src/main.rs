@@ -6,7 +6,7 @@ use ort::{inputs, session::Session, value::Tensor};
 use webp::Decoder;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let repeat = 128;
+    let repeat = 16;
     let shape = vec![repeat, 3, 640, 640];
 
     let input_data = {
@@ -24,7 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         let _timer = Timer::with_tip("Loaded the classification model");
         Session::builder(&env)?
             .with_execution_providers([preferred_execution_provider()])?
-            .commit_from_file("model/yolo26n-cls.onnx")?
+            .commit_from_file("model/yolo26l-cls.onnx")?
     };
 
     loop {
